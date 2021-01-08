@@ -60,7 +60,7 @@ const App = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/logged_in', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/logged_in', { xsrfCookieName: '_authentication_app' }, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && !props.isLoggedIn) {
           props.loginUserFromComponent({ user: { email: props.email, password: props.password } });
@@ -79,7 +79,7 @@ const App = props => {
   }, []);
 
   const handleSubmit = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/registrations', {
+    axios.post('https://book-an-appointment-backend.herokuapp.com/registrations', { xsrfCookieName: '_authentication_app' }, {
       user: {
         email,
         password,
@@ -99,7 +99,7 @@ const App = props => {
   };
 
   const handleSubmitForAdminRegistration = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/create_admin', {
+    axios.post('https://book-an-appointment-backend.herokuapp.com/create_admin', { xsrfCookieName: '_authentication_app' }, {
       admin: {
         email: emailForAdmin,
         password: passwordForAdmin,
@@ -119,7 +119,7 @@ const App = props => {
   };
 
   const handleSubmitForAdminLogin = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/create_admin_session', {
+    axios.post('https://book-an-appointment-backend.herokuapp.com/create_admin_session', { xsrfCookieName: '_authentication_app' }, {
       admin: {
         email: emailForAdminLogin,
         password: passwordForAdminLogin,
@@ -139,7 +139,7 @@ const App = props => {
   };
 
   const handleSubmitForLogin = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/sessions', {
+    axios.post('https://book-an-appointment-backend.herokuapp.com/sessions', { xsrfCookieName: '_authentication_app' }, {
       user: {
         email: emailForLogin,
         password: passwordForLogin,

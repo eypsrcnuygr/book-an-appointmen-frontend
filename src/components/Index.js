@@ -27,7 +27,7 @@ const Index = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/logged_in', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/logged_in', { xsrfCookieName: '_authentication_app' }, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && !props.isLoggedIn) {
           props.loginUserFromComponent({ user: { email: props.email, password: props.password } });
@@ -44,7 +44,7 @@ const Index = props => {
 
   const getTeachersFromAPI = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/registrations', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/registrations', { xsrfCookieName: '_authentication_app' }, { withCredentials: true })
       .then(response => {
         setTeacherDetails(response.data.admins);
       });

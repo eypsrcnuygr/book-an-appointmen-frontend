@@ -29,7 +29,7 @@ const IndexForAdmins = props => {
   const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
   const checkLoginStatus = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/logged_in_admin', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/logged_in_admin', { xsrfCookieName: '_authentication_app' }, { withCredentials: true })
       .then(response => {
         console.log(response);
         if (response.data.logged_in && !props.isAdminLoggedIn) {
@@ -68,7 +68,7 @@ const IndexForAdmins = props => {
   };
 
   const sendPhotoToAPI = () => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/edit_admin', { admin: { photo } }, { withCredentials: true })
+    axios.post('https://book-an-appointment-backend.herokuapp.com/edit_admin', { xsrfCookieName: '_authentication_app' }, { admin: { photo } }, { withCredentials: true })
       .then(response => {
         console.log(response);
       })
