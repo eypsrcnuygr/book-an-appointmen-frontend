@@ -27,7 +27,7 @@ const Index = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('http://localhost:3001/logged_in', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/logged_in', { withCredentials: true })
       .then(response => {
         if (response.data.logged_in && !props.isLoggedIn) {
           props.loginUserFromComponent({ user: { email: props.email, password: props.password } });
@@ -44,7 +44,7 @@ const Index = props => {
 
   const getTeachersFromAPI = () => {
     axios
-      .get('http://localhost:3001/registrations', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/registrations', { withCredentials: true })
       .then(response => {
         setTeacherDetails(response.data.admins);
       });
@@ -56,7 +56,7 @@ const Index = props => {
   }, []);
 
   const handleLogOut = () => {
-    axios.delete('http://localhost:3001/logout', { withCredentials: true })
+    axios.delete('https://book-an-appointment-backend.herokuapp.com/logout', { withCredentials: true })
       .then(() => (
         props.logoutUserFromComponent()
       ))

@@ -29,7 +29,7 @@ const IndexForAdmins = props => {
   const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
   const checkLoginStatus = () => {
     axios
-      .get('http://localhost:3001/logged_in_admin', { withCredentials: true })
+      .get('https://book-an-appointment-backend.herokuapp.com/logged_in_admin', { withCredentials: true })
       .then(response => {
         console.log(response);
         if (response.data.logged_in && !props.isAdminLoggedIn) {
@@ -50,7 +50,7 @@ const IndexForAdmins = props => {
   });
 
   const handleLogOut = () => {
-    axios.delete('http://localhost:3001/logout', { withCredentials: true })
+    axios.delete('https://book-an-appointment-backend.herokuapp.com/logout', { withCredentials: true })
       .then(() => (
         props.logoutAdminFromComponent({ admin: { email: props.email, password: props.password } })
       ))
@@ -68,7 +68,7 @@ const IndexForAdmins = props => {
   };
 
   const sendPhotoToAPI = () => {
-    axios.post('http://localhost:3001/edit_admin', { admin: { photo } }, { withCredentials: true })
+    axios.post('https://book-an-appointment-backend.herokuapp.com/edit_admin', { admin: { photo } }, { withCredentials: true })
       .then(response => {
         console.log(response);
       })
