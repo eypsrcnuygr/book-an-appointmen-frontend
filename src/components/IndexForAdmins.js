@@ -1,56 +1,95 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { logoutAdmin, loginAdmin } from '../actions/index';
 
 const mapStateToProps = state => {
+  const {
+    email,
+    password,
+    password_confirmation,
+    uid,
+    client,
+    access_token,
+  } = state.createUserReducer.user;
+
+  const { isLoggedIn } = state.createUserReducer;
   const { isAdminLoggedIn } = state.createUserReducer;
 
-  const { emailForAdmin, passwordForAdmin } = state.createUserReducer.admin;
-
-  return {
-    isAdminLoggedIn,
+  const {
     emailForAdmin,
     passwordForAdmin,
+    password_confirmationForAdmin,
+    uidForAdmin,
+    clientForAdmin,
+    access_tokenForAdmin,
+  } = state.createUserReducer.admin;
+
+  return {
+    email,
+    password,
+    password_confirmation,
+    emailForAdmin,
+    passwordForAdmin,
+    password_confirmationForAdmin,
+    isLoggedIn,
+    isAdminLoggedIn,
+    uid,
+    client,
+    access_token,
+    uidForAdmin,
+    clientForAdmin,
+    access_tokenForAdmin,
   };
 };
-
 const mapDispatchToProps = dispatch => ({
   logoutAdminFromComponent: admin => dispatch(logoutAdmin(admin)),
   loginAdminFromComponent: admin => dispatch(loginAdmin(admin)),
 });
 
 const IndexForAdmins = props => {
-  const [photo, setPhoto] = useState(props.photo);
-  const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
-  const checkLoginStatus = () => {
-    axios
-      .get('http://localhost:3001/logged_in_admin', { withCredentials: true })
-      .then(response => {
-        console.log(response);
-        if (response.data.logged_in && !props.isAdminLoggedIn) {
-          props.loginAdminFromComponent({ admin: { email: props.emailForAdmin, password: props.passwordForAdmin } });
-          props.history.push('/logged_in_admin');
-          setEmailForAdminVar(response.data.admin.email);
-        } else if (!response.data.logged_in && props.isAdminLoggedIn) {
-          props.logoutAdminFromComponent();
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  const [image, setImage] = useState(props.image);
+  // const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
+  // const checkLoginStatus = () => {
+  //   axios
+  //     .get('http://localhost:3001/auth_teacher/validate_token',
+  //       {
+  //         uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+  //         client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+  //         access_token: JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+  //       })
+  //     .then(response => {
+  //       console.log(response);
+  //       if (response.data.success && !props.isAdminLoggedIn) {
+  //         props.loginAdminFromComponent({ admin: { email: props.emailForAdmin, password: props.passwordForAdmin } });
+  //         props.history.push('/logged_in_admin');
+  //         setEmailForAdminVar(response.data.admin.email);
+  //       } else if (!response.data.success && props.isAdminLoggedIn) {
+  //         props.logoutAdminFromComponent();
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
-  useEffect(() => {
-    checkLoginStatus();
-  });
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // });
 
   const handleLogOut = () => {
-    axios.delete('http://localhost:3001/logout', { withCredentials: true })
+    axios.delete('http://localhost:3001/auth_teacher/sign_out', {
+      headers: {
+        uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+        client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+        access_token: JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+      },
+    })
       .then(() => (
         props.logoutAdminFromComponent({ admin: { email: props.email, password: props.password } })
       ))
@@ -63,12 +102,22 @@ const IndexForAdmins = props => {
   const onImageUpload = event => {
     if (event.target.files && event.target.files[0]) {
       const img = event.target.files[0];
-      setPhoto(URL.createObjectURL(img));
+      setImage(URL.createObjectURL(img));
     }
   };
 
   const sendPhotoToAPI = () => {
-    axios.post('http://localhost:3001/edit_admin', { admin: { photo } }, { withCredentials: true })
+    axios.patch('http://localhost:3001/auth_teacher', {
+      image,
+      email: props.emailForAdmin,
+      password: props.passwordForAdmin,
+    }, {
+      headers: {
+        uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+        client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+        access_token: JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+      },
+    })
       .then(response => {
         console.log(response);
       })
@@ -81,11 +130,11 @@ const IndexForAdmins = props => {
     <div>
       <div>Admin Panel</div>
       <div>{props.isAdminLoggedIn ? 'Yes' : 'No'}</div>
-      <div>{emailForAdminVar}</div>
+      <div>{props.emailForAdmin}</div>
       <button type="button" onClick={handleLogOut}>Submit</button>
       <div>Add your details</div>
       <input type="file" name="myImage" onChange={onImageUpload} />
-      <img src={photo} alt="teacher" />
+      <img src={image} alt="teacher" />
       <button type="button" onClick={sendPhotoToAPI}>Upload</button>
     </div>
 

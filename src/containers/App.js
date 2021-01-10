@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
@@ -15,6 +15,9 @@ const mapStateToProps = state => {
     email,
     password,
     password_confirmation,
+    uid,
+    client,
+    access_token,
   } = state.createUserReducer.user;
 
   const { isLoggedIn } = state.createUserReducer;
@@ -24,6 +27,9 @@ const mapStateToProps = state => {
     emailForAdmin,
     passwordForAdmin,
     password_confirmationForAdmin,
+    uidForAdmin,
+    clientForAdmin,
+    access_tokenForAdmin,
   } = state.createUserReducer.admin;
 
   return {
@@ -35,6 +41,12 @@ const mapStateToProps = state => {
     password_confirmationForAdmin,
     isLoggedIn,
     isAdminLoggedIn,
+    uid,
+    client,
+    access_token,
+    uidForAdmin,
+    clientForAdmin,
+    access_tokenForAdmin,
   };
 };
 
@@ -58,76 +70,100 @@ const App = props => {
   const [emailForAdminLogin, setEmailForAdminLogin] = useState(props.emailForAdmin);
   const [passwordForAdminLogin, setPasswordForAdminLogin] = useState(props.passwordForAdmin);
 
-  const checkLoginStatus = () => {
-    axios
-      .get('http://localhost:3001/logged_in', { withCredentials: true })
-      .then(response => {
-        if (response.data.logged_in && !props.isLoggedIn) {
-          props.loginUserFromComponent({ user: { email: props.email, password: props.password } });
-          props.history.push('/logged_in');
-        } else if (!response.data.logged_in && props.isLoggedIn) {
-          props.logoutUserFromComponent();
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
-
   const handleSubmit = event => {
-    axios.post('http://localhost:3001/registrations', {
-      user: {
-        email,
-        password,
-        password_confirmation,
-      },
-    }, { withCredentials: true }).then(response => {
-      if (response.data.status === 'created') {
-        props.createUserFromComponent({ user: { email, password, password_confirmation } });
+    axios.post('http://localhost:3001/auth', {
+      email,
+      password,
+      password_confirmation,
+    }).then(response => {
+      if (response.data.status === 'success') {
+        const myResponse = response.data.data;
+        const myUid = response.headers.uid;
+        const myClient = response.headers.client;
+        const myAccessToken = response.headers['access-token'];
+        localStorage.setItem('currentUser', JSON.stringify({
+          myResponse, myUid, myClient, myAccessToken,
+        }));
+        props.createUserFromComponent({
+          user: {
+            email,
+            password,
+            password_confirmation,
+            uid: response.headers.uid,
+            access_token: response.headers.access_token,
+            client: response.headers.client,
+          },
+        });
       }
     })
       .then(() => props.history.push('/logged_in'))
       .catch(error => {
-        console.log(error.message);
+        console.log(error);
       });
 
     event.preventDefault();
   };
 
   const handleSubmitForAdminRegistration = event => {
-    axios.post('http://localhost:3001/create_admin', {
-      admin: {
-        email: emailForAdmin,
-        password: passwordForAdmin,
-        password_confirmation: password_confirmationForAdmin,
-      },
-    }, { withCredentials: true }).then(response => {
-      if (response.data.status === 'created') {
-        props.createAdminFromComponent({ admin: { email: emailForAdmin, password: passwordForAdmin, password_confirmation: password_confirmationForAdmin } });
+    axios.post('http://localhost:3001/auth_teacher', {
+      email: emailForAdmin,
+      password: passwordForAdmin,
+      password_confirmation: password_confirmationForAdmin,
+    }).then(response => {
+      if (response.data.status === 'success') {
+        const myResponse = response.data.data;
+        const myUid = response.headers.uid;
+        const myClient = response.headers.client;
+        const myAccessToken = response.headers['access-token'];
+        localStorage.setItem('currentAdmin', JSON.stringify({
+          myResponse, myUid, myClient, myAccessToken,
+        }));
+        props.createAdminFromComponent({
+          admin: {
+            email: emailForAdmin,
+            password: passwordForAdmin,
+            password_confirmation: password_confirmationForAdmin,
+            uidForAdmin: response.headers.uid,
+            access_tokenForAdmin: response.headers['access-token'],
+            clientForAdmin: response.headers.client,
+          },
+        });
       }
     })
       .then(() => props.history.push('/logged_in_admin'))
       .catch(error => {
-        console.log(error.message);
+        console.log(error);
       });
 
     event.preventDefault();
   };
 
   const handleSubmitForAdminLogin = event => {
-    axios.post('http://localhost:3001/create_admin_session', {
-      admin: {
-        email: emailForAdminLogin,
-        password: passwordForAdminLogin,
+    axios.post('http://localhost:3001/auth_teacher/sign_in', {
+      email: emailForAdminLogin,
+      password: passwordForAdminLogin,
+    }, {
+      headers: {
+        uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+        client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+        'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
       },
-    }, { withCredentials: true }).then(response => {
+    }).then(response => {
       console.log(response);
-      if (response.data.logged_in) {
-        props.loginAdminFromComponent({ admin: { email: emailForAdminLogin, password: passwordForAdminLogin } });
+      if (response.status === 200) {
+        const myResponse = response.data.data;
+        const myUid = response.headers.uid;
+        const myClient = response.headers.client;
+        const myAccessToken = response.headers['access-token'];
+        localStorage.setItem('currentAdmin', JSON.stringify({
+          myResponse, myUid, myClient, myAccessToken,
+        }));
+        props.loginAdminFromComponent({
+          admin: {
+            email: emailForAdminLogin,
+            password: passwordForAdminLogin,
+          },
+        });
       }
     })
       .then(() => props.history.push('/logged_in_admin'))
@@ -139,14 +175,31 @@ const App = props => {
   };
 
   const handleSubmitForLogin = event => {
-    axios.post('http://localhost:3001/sessions', {
-      user: {
-        email: emailForLogin,
-        password: passwordForLogin,
+    axios.post('http://localhost:3001/auth/sign_in', {
+      email: emailForLogin,
+      password: passwordForLogin,
+    }, {
+      headers: {
+        uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+        client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+        access_token: JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
       },
-    }, { withCredentials: true }).then(response => {
-      if (response.data.logged_in) {
-        props.loginUserFromComponent({ user: { email: emailForLogin, password: passwordForLogin } });
+    }).then(response => {
+      if (response.status === 200) {
+        const myResponse = response.data.data;
+        const myUid = response.headers.uid;
+        const myClient = response.headers.client;
+        const myAccessToken = response.headers['access-token'];
+        localStorage.setItem('currentUser', JSON.stringify({
+          myResponse, myUid, myClient, myAccessToken,
+        }));
+        console.log(response);
+        props.loginUserFromComponent({
+          user: {
+            email: emailForLogin,
+            password: passwordForLogin,
+          },
+        });
       }
     })
       .then(() => props.history.push('/logged_in'))
