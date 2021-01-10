@@ -70,8 +70,8 @@ const Index = props => {
           },
         })
       .then(response => {
+        setUserId(response.data.data.id);
         if (response.data.success && !props.isLoggedIn) {
-          setUserId(response.data.data.id);
           props.loginUserFromComponent({
             user: {
               email: props.email,
@@ -131,6 +131,13 @@ const Index = props => {
           teacher_id: element.id,
           date: dateNow,
         },
+      })
+      .then(response => {
+        axios.patch(`http://localhost:3001/appointments/${response.data.id}`, {
+          appointment: {
+            status: 'pending',
+          },
+        });
       });
   };
 
