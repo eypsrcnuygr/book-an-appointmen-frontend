@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { loginUser, logoutUser } from '../actions/index';
@@ -53,54 +53,52 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Index = props => {
-  // let i = -1;
-  // const [email, setEmail] = useState(props.email);
-  // const [teacherDetails, setTeacherDetails] = useState([]);
+  let i = -1;
+  const [email, setEmail] = useState(props.email);
+  const [teacherDetails, setTeacherDetails] = useState([]);
 
-  // const checkLoginStatus = () => {
-  //   axios
-  //     .get('http://localhost:3001/auth/validate_token',
-  //       {
-  //         uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
-  //         client: JSON.parse(localStorage.getItem('currentUser')).myClient,
-  //         'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
-  //       })
-  //     .then(response => {
-  //       if (response.data.success && !props.isLoggedIn) {
-  //         props.loginUserFromComponent({
-  //           user: {
-  //             email: props.email,
-  //             password: props.password,
-  //           },
-  //         });
-  //         // props.history.push('/logged_in');
-  //         setEmail(response.data.data.email);
-  //       } else if (!response.data.success && props.isLoggedIn) {
-  //         props.logoutUserFromComponent();
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  const checkLoginStatus = () => {
+    axios
+      .get('http://localhost:3001/auth/validate_token',
+        {
+          headers: {
+            uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+            client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+            'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
+          },
+        })
+      .then(response => {
+        if (response.data.success && !props.isLoggedIn) {
+          props.loginUserFromComponent({
+            user: {
+              email: props.email,
+              password: props.password,
+            },
+          });
+          // props.history.push('/logged_in');
+          setEmail(response.data.data.email);
+        } else if (!response.data.success && props.isLoggedIn) {
+          props.logoutUserFromComponent();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-  // const getTeachersFromAPI = () => {
-  //   axios
-  //     .get('http://localhost:3001/auth/validate_token',
-  //       {
-  //         uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
-  //         client: JSON.parse(localStorage.getItem('currentUser')).myClient,
-  //         access_token: JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
-  //       })
-  //     .then(response => {
-  //       setTeacherDetails(response.data.data);
-  //     });
-  // };
+  const getTeachersFromAPI = () => {
+    axios
+      .get('http://localhost:3001/teachers')
+      .then(response => {
+        console.log(response);
+        setTeacherDetails(response.data.data);
+      });
+  };
 
-  // useEffect(() => {
-  //   checkLoginStatus();
-  //   getTeachersFromAPI();
-  // }, []);
+  useEffect(() => {
+    checkLoginStatus();
+    getTeachersFromAPI();
+  }, []);
 
   const handleLogOut = () => {
     axios.delete('http://localhost:3001/auth/sign_out', {
@@ -125,10 +123,10 @@ const Index = props => {
   return (
     <div>
       <div>Sercan</div>
-      <div>{props.email}</div>
+      <div>{email}</div>
       <div>{props.isLoggedIn ? 'Yes' : 'No'}</div>
       <button type="button" onClick={handleLogOut}>Submit</button>
-      {/* <div>
+      <div>
         {teacherDetails.map(element => {
           i += 1;
           return (
@@ -138,7 +136,7 @@ const Index = props => {
             </div>
           );
         })}
-      </div> */}
+      </div>
     </div>
 
   );

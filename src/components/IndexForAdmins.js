@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { logoutAdmin, loginAdmin } from '../actions/index';
@@ -28,6 +28,7 @@ const mapStateToProps = state => {
     uidForAdmin,
     clientForAdmin,
     access_tokenForAdmin,
+    image,
   } = state.createUserReducer.admin;
 
   return {
@@ -45,6 +46,7 @@ const mapStateToProps = state => {
     uidForAdmin,
     clientForAdmin,
     access_tokenForAdmin,
+    image,
   };
 };
 const mapDispatchToProps = dispatch => ({
@@ -53,34 +55,36 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const IndexForAdmins = props => {
-  const [image, setImage] = useState(props.image);
-  // const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
-  // const checkLoginStatus = () => {
-  //   axios
-  //     .get('http://localhost:3001/auth_teacher/validate_token',
-  //       {
-  //         uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
-  //         client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
-  //         access_token: JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
-  //       })
-  //     .then(response => {
-  //       console.log(response);
-  //       if (response.data.success && !props.isAdminLoggedIn) {
-  //         props.loginAdminFromComponent({ admin: { email: props.emailForAdmin, password: props.passwordForAdmin } });
-  //         props.history.push('/logged_in_admin');
-  //         setEmailForAdminVar(response.data.admin.email);
-  //       } else if (!response.data.success && props.isAdminLoggedIn) {
-  //         props.logoutAdminFromComponent();
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  const [photo, setImage] = useState(props.image);
+  const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
+  const checkLoginStatus = () => {
+    axios
+      .get('http://localhost:3001/auth_teacher/validate_token',
+        {
+          headers: {
+            uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+            client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+            'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+          },
+        })
+      .then(response => {
+        console.log(response.data.data);
+        if (response.data.success && !props.isAdminLoggedIn) {
+          props.loginAdminFromComponent({ admin: { email: props.emailForAdmin, password: props.passwordForAdmin } });
+          props.history.push('/logged_in_admin');
+          setEmailForAdminVar(response.data.data.email);
+        } else if (!response.data.success && props.isAdminLoggedIn) {
+          props.logoutAdminFromComponent();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // });
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
 
   const handleLogOut = () => {
     axios.delete('http://localhost:3001/auth_teacher/sign_out', {
@@ -108,7 +112,7 @@ const IndexForAdmins = props => {
 
   const sendPhotoToAPI = () => {
     axios.patch('http://localhost:3001/auth_teacher', {
-      image,
+      image: photo,
       email: props.emailForAdmin,
       password: props.passwordForAdmin,
     }, {
@@ -130,11 +134,11 @@ const IndexForAdmins = props => {
     <div>
       <div>Admin Panel</div>
       <div>{props.isAdminLoggedIn ? 'Yes' : 'No'}</div>
-      <div>{props.emailForAdmin}</div>
+      <div>{emailForAdminVar}</div>
       <button type="button" onClick={handleLogOut}>Submit</button>
       <div>Add your details</div>
       <input type="file" name="myImage" onChange={onImageUpload} />
-      <img src={image} alt="teacher" />
+      <img src={photo} alt="teacher" />
       <button type="button" onClick={sendPhotoToAPI}>Upload</button>
     </div>
 
