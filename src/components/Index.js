@@ -56,6 +56,8 @@ const Index = props => {
   let i = -1;
   const [email, setEmail] = useState(props.email);
   const [teacherDetails, setTeacherDetails] = useState([]);
+  const [dateNow, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [userId, setUserId] = useState(null);
 
   const checkLoginStatus = () => {
     axios
@@ -69,6 +71,7 @@ const Index = props => {
         })
       .then(response => {
         if (response.data.success && !props.isLoggedIn) {
+          setUserId(response.data.data.id);
           props.loginUserFromComponent({
             user: {
               email: props.email,
@@ -120,6 +123,17 @@ const Index = props => {
       });
   };
 
+  const handleAppointment = element => {
+    axios
+      .post('http://localhost:3001/appointments', {
+        appointment: {
+          user_id: userId,
+          teacher_id: element.id,
+          date: dateNow,
+        },
+      });
+  };
+
   return (
     <div>
       <div>Sercan</div>
@@ -133,6 +147,8 @@ const Index = props => {
             <div key={i}>
               <div>{element.email}</div>
               <img src={element.image} alt="teacher" />
+              <input type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
+              <button type="button" onClick={() => handleAppointment(element)}>Apply</button>
             </div>
           );
         })}
