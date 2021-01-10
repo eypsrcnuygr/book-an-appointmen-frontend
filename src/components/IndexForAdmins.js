@@ -82,8 +82,18 @@ const IndexForAdmins = props => {
       });
   };
 
+  const getTeacherFromAPI = () => {
+    const AdminId = JSON.parse(localStorage.getItem('currentAdmin')).myResponse.id;
+    axios
+      .get(`http://localhost:3001/show/${AdminId}`)
+      .then(response => {
+        console.log(response);
+      });
+  };
+
   useEffect(() => {
     checkLoginStatus();
+    getTeacherFromAPI();
   }, []);
 
   const handleLogOut = () => {
