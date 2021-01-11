@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
@@ -57,6 +60,9 @@ const mapDispatchToProps = dispatch => ({
 const IndexForAdmins = props => {
   const [photo, setImage] = useState(props.image);
   const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
+  const [appointmentsForAdmin, setAppointmentsForAdmin] = useState([]);
+  let i = -1;
+
   const checkLoginStatus = () => {
     axios
       .get('http://localhost:3001/auth_teacher/validate_token',
@@ -83,11 +89,23 @@ const IndexForAdmins = props => {
   };
 
   const getTeacherFromAPI = () => {
+    let i = 0;
     const AdminId = JSON.parse(localStorage.getItem('currentAdmin')).myResponse.id;
     axios
       .get(`http://localhost:3001/show/${AdminId}`)
       .then(response => {
-        console.log(response);
+        console.log(response.data);
+        const a = response.data.appointments;
+        const b = response.data.users_mails;
+        console.log(b);
+        const lastVersion = [];
+        a.forEach(element => {
+          const first_version = element;
+          first_version.user_mail = b[i];
+          lastVersion.push(first_version);
+          i += 1;
+        });
+        setAppointmentsForAdmin(lastVersion);
       });
   };
 
@@ -140,6 +158,43 @@ const IndexForAdmins = props => {
       });
   };
 
+  const handleAppointmentAnswer = (e, element) => {
+    console.log(e.target.value);
+    if (e.target.value === 'Accept') {
+      axios.patch(`http://localhost:3001/appointments/${element.id}`, {
+        appointment: {
+          status: 'accepted',
+        },
+      });
+    } else {
+      axios.patch(`http://localhost:3001/appointments/${element.id}`, {
+        appointment: {
+          status: 'none',
+        },
+      });
+    }
+  };
+
+  const renderedElement = [];
+
+  appointmentsForAdmin.map(element => {
+    element.status === 'pending'
+      ? renderedElement.push(
+        <div>
+          `$
+          {element.user_mail}
+          {' '}
+          wants to have a lesson with you on $
+          {element.date}
+          `
+          <button type="button" value="Accept" onClick={(e => handleAppointmentAnswer(e, element))}>Accept</button>
+          <button type="button" value="Decline" onClick={(e => handleAppointmentAnswer(e, element))}>Decline</button>
+        </div>,
+      )
+      : renderedElement.push(<div />);
+    return renderedElement;
+  });
+
   return (
     <div>
       <div>Admin Panel</div>
@@ -150,6 +205,10 @@ const IndexForAdmins = props => {
       <input type="file" name="myImage" onChange={onImageUpload} />
       <img src={photo} alt="teacher" />
       <button type="button" onClick={sendPhotoToAPI}>Upload</button>
+      {renderedElement.map(element => {
+        i += 1;
+        return <div key={i}>{element}</div>;
+      })}
     </div>
 
   );
