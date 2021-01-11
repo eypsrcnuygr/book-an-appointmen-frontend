@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
-  createUser, loginUser, createAdmin, loginAdmin, logoutUser,
+  createUser, loginUser, createAdmin, loginAdmin,
 } from '../actions/index';
 
 const mapStateToProps = state => {
@@ -53,7 +53,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   createUserFromComponent: user => dispatch(createUser(user)),
   loginUserFromComponent: user => dispatch(loginUser(user)),
-  logoutUserFromComponent: user => dispatch(logoutUser(user)),
   loginAdminFromComponent: admin => dispatch(loginAdmin(admin)),
   createAdminFromComponent: user => dispatch(createAdmin(user)),
 });
@@ -69,6 +68,8 @@ const App = props => {
   const [password_confirmationForAdmin, setPasswordConfirmationForAdmin] = useState(props.password_confirmationForAdmin);
   const [emailForAdminLogin, setEmailForAdminLogin] = useState(props.emailForAdmin);
   const [passwordForAdminLogin, setPasswordForAdminLogin] = useState(props.passwordForAdmin);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = event => {
     axios.post('http://localhost:3001/auth', {
@@ -98,7 +99,9 @@ const App = props => {
     })
       .then(() => props.history.push('/logged_in'))
       .catch(error => {
-        console.log(error);
+        setHasError(true);
+        setErrorMessage(error.response.statusText);
+        return error.response;
       });
 
     event.preventDefault();
@@ -132,7 +135,9 @@ const App = props => {
     })
       .then(() => props.history.push('/logged_in_admin'))
       .catch(error => {
-        console.log(error);
+        setHasError(true);
+        setErrorMessage(error.response.statusText);
+        return error.response;
       });
 
     event.preventDefault();
@@ -168,7 +173,9 @@ const App = props => {
     })
       .then(() => props.history.push('/logged_in_admin'))
       .catch(error => {
-        console.log(error.message);
+        setHasError(true);
+        setErrorMessage(error.response.statusText);
+        return error.response;
       });
 
     event.preventDefault();
@@ -204,7 +211,9 @@ const App = props => {
     })
       .then(() => props.history.push('/logged_in'))
       .catch(error => {
-        console.log(error.message);
+        setHasError(true);
+        setErrorMessage(error.response.statusText);
+        return error.response;
       });
 
     event.preventDefault();
@@ -308,6 +317,7 @@ const App = props => {
         />
         <button type="button" onClick={handleSubmitForAdminLogin}>Submit</button>
       </form>
+      {hasError ? <div>{errorMessage}</div> : null}
     </>
   );
 };
