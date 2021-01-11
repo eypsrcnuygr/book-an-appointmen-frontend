@@ -166,34 +166,16 @@ const IndexForAdmins = props => {
           status: 'accepted',
         },
       });
+      window.location.reload();
     } else {
       axios.patch(`http://localhost:3001/appointments/${element.id}`, {
         appointment: {
           status: 'none',
         },
       });
+      window.location.reload();
     }
   };
-
-  const renderedElement = [];
-
-  appointmentsForAdmin.map(element => {
-    element.status === 'pending'
-      ? renderedElement.push(
-        <div>
-          `$
-          {element.user_mail}
-          {' '}
-          wants to have a lesson with you on $
-          {element.date}
-          `
-          <button type="button" value="Accept" onClick={(e => handleAppointmentAnswer(e, element))}>Accept</button>
-          <button type="button" value="Decline" onClick={(e => handleAppointmentAnswer(e, element))}>Decline</button>
-        </div>,
-      )
-      : renderedElement.push(<div />);
-    return renderedElement;
-  });
 
   return (
     <div>
@@ -205,9 +187,22 @@ const IndexForAdmins = props => {
       <input type="file" name="myImage" onChange={onImageUpload} />
       <img src={photo} alt="teacher" />
       <button type="button" onClick={sendPhotoToAPI}>Upload</button>
-      {renderedElement.map(element => {
+      {appointmentsForAdmin.map(element => {
         i += 1;
-        return <div key={i}>{element}</div>;
+        if (element.status === 'pending') {
+          return (
+            <div key={i}>
+              `$
+              {element.user_mail}
+              {' '}
+              wants to have a lesson with you on $
+              {element.date}
+              `
+              <button type="button" value="Accept" onClick={(e => handleAppointmentAnswer(e, element))}>Accept</button>
+              <button type="button" value="Decline" onClick={(e => handleAppointmentAnswer(e, element))}>Decline</button>
+            </div>
+          );
+        } return <div key={i} />;
       })}
     </div>
 
