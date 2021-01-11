@@ -61,6 +61,9 @@ const IndexForAdmins = props => {
   const [photo, setImage] = useState(props.image);
   const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
   const [appointmentsForAdmin, setAppointmentsForAdmin] = useState([]);
+  const [nickName, setNickName] = useState('');
+  const [mydetails, setDetails] = useState('');
+  const [currentTeacher, setCurrentTeacher] = useState([]);
   let i = -1;
 
   const checkLoginStatus = () => {
@@ -77,7 +80,7 @@ const IndexForAdmins = props => {
         console.log(response.data.data);
         if (response.data.success && !props.isAdminLoggedIn) {
           props.loginAdminFromComponent({ admin: { email: response.data.data.email, password: props.passwordForAdmin } });
-          props.history.push('/logged_in_admin');
+          // props.history.push('/logged_in_admin');
           setEmailForAdminVar(response.data.data.email);
         } else if (!response.data.success && props.isAdminLoggedIn) {
           props.logoutAdminFromComponent();
@@ -106,6 +109,7 @@ const IndexForAdmins = props => {
           i += 1;
         });
         setAppointmentsForAdmin(lastVersion);
+        setCurrentTeacher(response.data.cur_teacher);
       });
   };
 
@@ -143,6 +147,8 @@ const IndexForAdmins = props => {
       image: photo,
       email: props.emailForAdmin,
       password: props.passwordForAdmin,
+      nickname: nickName,
+      details: mydetails,
     }, {
       headers: {
         uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
@@ -178,15 +184,32 @@ const IndexForAdmins = props => {
   };
 
   return (
-    <div>
-      <div>Admin Panel</div>
-      <div>{props.isAdminLoggedIn ? 'Yes' : 'No'}</div>
-      <div>{emailForAdminVar}</div>
-      <button type="button" onClick={handleLogOut}>Submit</button>
-      <div>Add your details</div>
-      <input type="file" name="myImage" onChange={onImageUpload} />
-      <img src={photo} alt="teacher" />
-      <button type="button" onClick={sendPhotoToAPI}>Upload</button>
+    <div className="text-center">
+      <div><h1>Welcome to Teachers&apos; Panel</h1></div>
+      <div>{props.isAdminLoggedIn ? `You are logged in as ${emailForAdminVar}` : 'No'}</div>
+      <div className="img-container mx-auto">
+        {photo ? <img src={photo} alt="teacher" className="rounded-circle img-fluid" />
+          : <img src={currentTeacher.image} alt="teacher" className="rounded-circle img-fluid" />}
+      </div>
+      <div>
+        {!currentTeacher.nickname || !currentTeacher.details || !currentTeacher.image
+          ? <h2>Add your details</h2>
+          : `Hello ${currentTeacher.nickname}`}
+      </div>
+      {!currentTeacher.nickname
+        ? <input type="text" className="form-control w-50 mx-auto mb-3" placeholder="Add your nickname" onChange={e => { setNickName(e.target.value); }} />
+        : null}
+      {!currentTeacher.details
+        ? <input type="text" className="form-control w-50 mx-auto mb-3" placeholder="Add your details" onChange={e => { setDetails(e.target.value); }} />
+        : null}
+      {!currentTeacher.nickname || !currentTeacher.details || !currentTeacher.image
+        ? (
+          <div>
+            <input type="file" className="form-control w-25 mx-auto mb-3" name="myImage" onChange={onImageUpload} />
+            <button type="button" className="btn btn-primary mb-3" onClick={sendPhotoToAPI}>Upload</button>
+          </div>
+        )
+        : null}
       {appointmentsForAdmin.map(element => {
         i += 1;
         if (element.status === 'pending') {
@@ -204,6 +227,7 @@ const IndexForAdmins = props => {
           );
         } return <div key={i} />;
       })}
+      <button type="button" className="btn btn-danger" onClick={handleLogOut}>Log Out</button>
     </div>
 
   );

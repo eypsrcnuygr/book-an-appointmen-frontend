@@ -58,9 +58,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const App = props => {
-  const [email, setEmail] = useState(props.email);
-  const [password, setPassword] = useState(props.password);
-  const [password_confirmation, setPasswordConfirmation] = useState(props.password_confirmation);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_confirmation, setPasswordConfirmation] = useState('');
   const [emailForLogin, setEmailForLogin] = useState(props.email);
   const [passwordForLogin, setPasswordForLogin] = useState(props.password);
   const [emailForAdmin, setEmailForAdmin] = useState(props.emailForAdmin);
