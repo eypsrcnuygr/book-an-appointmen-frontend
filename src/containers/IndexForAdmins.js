@@ -183,13 +183,22 @@ const IndexForAdmins = props => {
     }
   };
 
+  let renderedPicture = null;
+
+  if (photo) {
+    renderedPicture = <img src={photo} alt="teacher" className="rounded-circle img-fluid" />;
+  } else if (currentTeacher.image) {
+    renderedPicture = <img src={currentTeacher.image} alt="teacher" className="rounded-circle img-fluid" />;
+  } else {
+    renderedPicture = null;
+  }
+
   return (
     <div className="text-center">
       <div><h1>Welcome to Teachers&apos; Panel</h1></div>
       <div>{props.isAdminLoggedIn ? `You are logged in as ${emailForAdminVar}` : 'No'}</div>
       <div className="img-container mx-auto">
-        {photo ? <img src={photo} alt="teacher" className="rounded-circle img-fluid" />
-          : <img src={currentTeacher.image} alt="teacher" className="rounded-circle img-fluid" />}
+        {renderedPicture}
       </div>
       <div>
         {!currentTeacher.nickname || !currentTeacher.details || !currentTeacher.image
