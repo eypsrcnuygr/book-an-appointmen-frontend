@@ -2,8 +2,8 @@
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import React from 'react';
 import App from '../containers/App';
-import Index from './Index';
-import IndexForAdmins from './IndexForAdmins';
+import Index from '../containers/Index';
+import IndexForAdmins from '../containers/IndexForAdmins';
 
 const AppContainer = () => (
   <HashRouter>
