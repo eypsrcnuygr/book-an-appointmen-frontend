@@ -74,7 +74,7 @@ const Index = props => {
         if (response.data.success && !props.isLoggedIn) {
           props.loginUserFromComponent({
             user: {
-              email: props.email,
+              email: response.data.data.email,
               password: props.password,
             },
           });

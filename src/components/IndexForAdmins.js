@@ -76,7 +76,7 @@ const IndexForAdmins = props => {
       .then(response => {
         console.log(response.data.data);
         if (response.data.success && !props.isAdminLoggedIn) {
-          props.loginAdminFromComponent({ admin: { email: props.emailForAdmin, password: props.passwordForAdmin } });
+          props.loginAdminFromComponent({ admin: { email: response.data.data.email, password: props.passwordForAdmin } });
           props.history.push('/logged_in_admin');
           setEmailForAdminVar(response.data.data.email);
         } else if (!response.data.success && props.isAdminLoggedIn) {
