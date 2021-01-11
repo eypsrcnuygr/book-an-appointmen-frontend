@@ -221,7 +221,8 @@ const App = props => {
 
   return (
     <>
-      <form>
+      <h1 className="text-center font-weight-bold">Welcome STUDENTS</h1>
+      <form className="text-center mb-4 w-50 mx-auto mt-4">
         <input
           type="email"
           name="email"
@@ -229,6 +230,7 @@ const App = props => {
           value={email}
           onChange={event => setEmail(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -237,6 +239,7 @@ const App = props => {
           value={password}
           onChange={event => setPassword(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -245,11 +248,12 @@ const App = props => {
           value={password_confirmation}
           onChange={event => setPasswordConfirmation(event.target.value)}
           required
+          className="form-control mb-2"
         />
-        <button type="button" onClick={handleSubmit}>Submit</button>
+        <button type="button" className="btn btn-success mt-3" onClick={handleSubmit}>Sign Up</button>
       </form>
 
-      <form>
+      <form className="text-center mb-5 w-50 mx-auto">
         <input
           type="email"
           name="email"
@@ -257,6 +261,7 @@ const App = props => {
           value={emailForLogin}
           onChange={event => setEmailForLogin(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -265,12 +270,13 @@ const App = props => {
           value={passwordForLogin}
           onChange={event => setPasswordForLogin(event.target.value)}
           required
+          className="form-control mb-2"
         />
-        <button type="button" onClick={handleSubmitForLogin}>Submit</button>
+        <button type="button" className="btn btn-primary mt-3" onClick={handleSubmitForLogin}>Sign In</button>
       </form>
 
-      <div>Or Are you a teacher</div>
-      <form>
+      <div className="text-center"><h2 className="font-weight-bolder">Or Are You a TEACHER?</h2></div>
+      <form className="text-center mb-5 w-50 mx-auto">
         <input
           type="email"
           name="email"
@@ -278,6 +284,7 @@ const App = props => {
           value={emailForAdmin}
           onChange={event => setEmailForAdmin(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -286,6 +293,7 @@ const App = props => {
           value={passwordForAdmin}
           onChange={event => setPasswordForAdmin(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -294,11 +302,12 @@ const App = props => {
           value={password_confirmationForAdmin}
           onChange={event => setPasswordConfirmationForAdmin(event.target.value)}
           required
+          className="form-control mb-2"
         />
-        <button type="button" onClick={handleSubmitForAdminRegistration}>Submit</button>
+        <button type="button" className="btn btn-success mt-3" onClick={handleSubmitForAdminRegistration}>Sign Up</button>
       </form>
 
-      <form>
+      <form className="text-center mb-5 w-50 mx-auto">
         <input
           type="email"
           name="email"
@@ -306,6 +315,7 @@ const App = props => {
           value={emailForAdminLogin}
           onChange={event => setEmailForAdminLogin(event.target.value)}
           required
+          className="form-control mb-2"
         />
         <input
           type="password"
@@ -314,8 +324,9 @@ const App = props => {
           value={passwordForAdminLogin}
           onChange={event => setPasswordForAdminLogin(event.target.value)}
           required
+          className="form-control mb-2"
         />
-        <button type="button" onClick={handleSubmitForAdminLogin}>Submit</button>
+        <button type="button" className="btn btn-primary mt-3" onClick={handleSubmitForAdminLogin}>Sign In</button>
       </form>
       {hasError ? <div>{errorMessage}</div> : null}
     </>
