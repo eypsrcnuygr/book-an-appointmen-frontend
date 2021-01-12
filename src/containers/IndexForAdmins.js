@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
@@ -141,6 +142,7 @@ const IndexForAdmins = props => {
       setImage(URL.createObjectURL(img));
     }
   };
+  let responseVar = null;
 
   const sendPhotoToAPI = () => {
     axios.patch('http://localhost:3001/auth_teacher', {
@@ -157,7 +159,8 @@ const IndexForAdmins = props => {
       },
     })
       .then(response => {
-        console.log(response);
+        responseVar = response.data.status;
+        setTimeout(() => { alert(responseVar); }, 1000);
       })
       .catch(error => {
         console.log(error);
@@ -198,7 +201,7 @@ const IndexForAdmins = props => {
   }
 
   return (
-    <div className="text-center">
+    <div className="text-center card w-50 mx-auto shadow-lg my-5 py-5">
       <div><h1>Welcome to Teachers&apos; Panel</h1></div>
       <div>{props.isAdminLoggedIn ? `You are logged in as ${emailForAdminVar}` : 'No'}</div>
       <div className="img-container mx-auto">
@@ -227,20 +230,22 @@ const IndexForAdmins = props => {
         i += 1;
         if (element.status === 'pending') {
           return (
-            <div key={i}>
-              `$
-              {element.user_mail}
-              {' '}
-              wants to have a lesson with you on $
-              {element.date}
-              `
-              <button type="button" value="Accept" onClick={(e => handleAppointmentAnswer(e, element))}>Accept</button>
-              <button type="button" value="Decline" onClick={(e => handleAppointmentAnswer(e, element))}>Decline</button>
+            <div key={i} className="card w-75 mx-auto mb-3 shadow py-3">
+              <p className="card-text">User with
+                {' '}
+                <b>{element.user_mail}</b>
+                {' '}
+                mail want to have a class on
+                {' '}
+                <b>{element.date}</b>
+              </p>
+              <button type="button" className="btn btn-success mb-2 w-50 mx-auto" value="Accept" onClick={(e => handleAppointmentAnswer(e, element))}>Accept</button>
+              <button type="button" className="btn btn-danger mb-2 w-50 mx-auto" value="Decline" onClick={(e => handleAppointmentAnswer(e, element))}>Decline</button>
             </div>
           );
         } return <div key={i} />;
       })}
-      <button type="button" className="btn btn-danger" onClick={handleLogOut}>Log Out</button>
+      <button type="button" className="btn btn-danger w-25 mx-auto mt-4" onClick={handleLogOut}>Log Out</button>
     </div>
 
   );

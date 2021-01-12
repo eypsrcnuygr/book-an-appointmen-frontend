@@ -61,15 +61,17 @@ const App = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
-  const [emailForLogin, setEmailForLogin] = useState(props.email);
-  const [passwordForLogin, setPasswordForLogin] = useState(props.password);
-  const [emailForAdmin, setEmailForAdmin] = useState(props.emailForAdmin);
-  const [passwordForAdmin, setPasswordForAdmin] = useState(props.passwordForAdmin);
-  const [password_confirmationForAdmin, setPasswordConfirmationForAdmin] = useState(props.password_confirmationForAdmin);
-  const [emailForAdminLogin, setEmailForAdminLogin] = useState(props.emailForAdmin);
-  const [passwordForAdminLogin, setPasswordForAdminLogin] = useState(props.passwordForAdmin);
+  const [emailForLogin, setEmailForLogin] = useState('');
+  const [passwordForLogin, setPasswordForLogin] = useState('');
+  const [emailForAdmin, setEmailForAdmin] = useState('');
+  const [passwordForAdmin, setPasswordForAdmin] = useState('');
+  const [password_confirmationForAdmin, setPasswordConfirmationForAdmin] = useState('');
+  const [emailForAdminLogin, setEmailForAdminLogin] = useState('');
+  const [passwordForAdminLogin, setPasswordForAdminLogin] = useState('');
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  let responseVar = null;
 
   const handleSubmit = event => {
     axios.post('http://localhost:3001/auth', {
@@ -101,6 +103,8 @@ const App = props => {
       .catch(error => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
+        responseVar = errorMessage;
+        setTimeout(() => { alert(responseVar); }, 1000);
         return error.response;
       });
 
@@ -137,6 +141,8 @@ const App = props => {
       .catch(error => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
+        responseVar = errorMessage;
+        setTimeout(() => { alert(responseVar); }, 1000);
         return error.response;
       });
 
@@ -175,6 +181,8 @@ const App = props => {
       .catch(error => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
+        responseVar = errorMessage;
+        setTimeout(() => { alert(responseVar); }, 1000);
         return error.response;
       });
 
@@ -213,6 +221,8 @@ const App = props => {
       .catch(error => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
+        responseVar = errorMessage;
+        setTimeout(() => { alert(responseVar); }, 1000);
         return error.response;
       });
 

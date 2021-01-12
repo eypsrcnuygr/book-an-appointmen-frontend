@@ -142,24 +142,24 @@ const Index = props => {
   };
 
   return (
-    <div>
-      <div>Sercan</div>
-      <div>{email}</div>
-      <div>{props.isLoggedIn ? 'Yes' : 'No'}</div>
-      <button type="button" onClick={handleLogOut}>Submit</button>
+    <div className="w-50 mx-auto text-center">
+      <div><h1>Welcome to Students&apos; Panel</h1></div>
+      <div>{props.isLoggedIn ? `You are logged in as ${email}` : 'Not authorized'}</div>
       <div>
+        <h2>Here Are the Registrated Teachers</h2>
         {teacherDetails.map(element => {
           i += 1;
           return (
-            <div key={i}>
+            <div key={i} className="card mb-3 py-3 shadow-lg">
               <div>{element.email}</div>
-              <img src={element.image} alt="teacher" />
-              <input type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
-              <button type="button" onClick={() => handleAppointment(element)}>Apply</button>
+              <div className="img-container mx-auto"><img src={element.image} className="img-fluid rounded-circle" alt="teacher" /></div>
+              <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
+              <button type="button" className="btn btn-primary w-25 mx-auto" onClick={() => handleAppointment(element)}>Apply</button>
             </div>
           );
         })}
       </div>
+      <button type="button" className="btn btn-danger my-4" onClick={handleLogOut}>Log Out</button>
     </div>
 
   );
