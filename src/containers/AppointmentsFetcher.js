@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import NavBar from './NavBar';
+import NavBar from '../components/NavBar';
 
 const AppointmentsFetcher = () => {
   let responseVar = null;

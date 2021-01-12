@@ -1,11 +1,8 @@
 /* eslint-disable no-alert */
-/* eslint-disable no-console */
-/* eslint-disable max-len */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
   createUser, loginUser, createAdmin, loginAdmin,
@@ -161,7 +158,6 @@ const App = props => {
         'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
       },
     }).then(response => {
-      console.log(response);
       if (response.status === 200) {
         const myResponse = response.data.data;
         const myUid = response.headers.uid;
@@ -209,7 +205,6 @@ const App = props => {
         localStorage.setItem('currentUser', JSON.stringify({
           myResponse, myUid, myClient, myAccessToken,
         }));
-        console.log(response);
         props.loginUserFromComponent({
           user: {
             email: emailForLogin,
@@ -342,6 +337,22 @@ const App = props => {
       {hasError ? <div>{errorMessage}</div> : null}
     </>
   );
+};
+
+App.propTypes = {
+  createUserFromComponent: PropTypes.instanceOf(Object),
+  createAdminFromComponent: PropTypes.instanceOf(Object),
+  history: PropTypes.instanceOf(Object),
+  loginAdminFromComponent: PropTypes.instanceOf(Object),
+  loginUserFromComponent: PropTypes.instanceOf(Object),
+};
+
+App.defaultProps = {
+  createUserFromComponent: {},
+  createAdminFromComponent: {},
+  history: {},
+  loginAdminFromComponent: {},
+  loginUserFromComponent: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

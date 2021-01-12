@@ -4,7 +4,7 @@ import React from 'react';
 import App from '../containers/App';
 import Index from '../containers/Index';
 import IndexForAdmins from '../containers/IndexForAdmins';
-import AppointmentsFetcher from './AppointmentsFetcher';
+import AppointmentsFetcher from '../containers/AppointmentsFetcher';
 
 const AppContainer = () => (
   <HashRouter>
