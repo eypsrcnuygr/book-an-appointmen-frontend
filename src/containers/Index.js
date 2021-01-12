@@ -152,7 +152,7 @@ const Index = props => {
           return (
             <div key={i} className="card mb-3 py-3 shadow-lg">
               <div>{element.email}</div>
-              <div className="img-container mx-auto"><img src={element.image} className="img-fluid rounded-circle" alt="teacher" /></div>
+              <div className="img-container mx-auto my-4"><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></div>
               <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
               <button type="button" className="btn btn-primary w-25 mx-auto" onClick={() => handleAppointment(element)}>Apply</button>
             </div>

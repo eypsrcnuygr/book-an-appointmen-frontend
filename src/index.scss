@@ -15,4 +15,10 @@ code {
 .img-container {
   width: 200px;
   height: 200px;
+
+  & .image {
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 }
