@@ -151,7 +151,7 @@ const Index = props => {
   };
 
   return (
-    <div className="w-50 mx-auto text-center">
+    <div className="w-50 mx-auto text-center mb-5">
       <NavBar />
       <div><h1>Welcome to Students&apos; Panel</h1></div>
       <div>{props.isLoggedIn ? `You are logged in as ${email}` : 'Not authorized'}</div>

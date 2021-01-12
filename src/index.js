@@ -7,11 +7,13 @@ import store from './store/index';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './index.scss';
+import Footer from './components/Footer';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AppContainer />
+      <Footer />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
