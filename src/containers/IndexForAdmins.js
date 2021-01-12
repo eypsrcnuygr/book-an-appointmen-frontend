@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/aria-role */
+/* eslint-disable react/jsx-tag-spacing */
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-expressions */
@@ -10,6 +12,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Widget } from '@uploadcare/react-widget';
 import axios from 'axios';
 import { logoutAdmin, loginAdmin } from '../actions/index';
 
@@ -145,10 +148,8 @@ const IndexForAdmins = props => {
   };
 
   const onImageUpload = event => {
-    if (event.target.files && event.target.files[0]) {
-      const img = event.target.files[0];
-      setImage(URL.createObjectURL(img));
-    }
+    setImage(event.originalUrl);
+    console.log(event);
   };
 
   const sendPhotoToAPI = () => {
@@ -228,9 +229,9 @@ const IndexForAdmins = props => {
         : null}
       {!currentTeacher.nickname || !currentTeacher.details || !currentTeacher.image
         ? (
-          <div>
-            <input type="file" className="form-control w-25 mx-auto mb-3" name="myImage" onChange={onImageUpload} />
-            <button type="button" className="btn btn-primary mb-3" onClick={sendPhotoToAPI}>Upload</button>
+          <div className="d-flex flex-column">
+            <Widget publicKey="aa727786fe030a1ce7a9" id="file" role="uploadcare-uploader" onChange={event => onImageUpload(event)}/>
+            <button type="button" className="btn btn-success my-3 w-25 mx-auto" onClick={sendPhotoToAPI}>Upload</button>
           </div>
         )
         : null}
