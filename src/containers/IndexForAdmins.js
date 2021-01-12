@@ -71,7 +71,7 @@ const IndexForAdmins = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('http://localhost:3001/auth_teacher/validate_token',
+      .get('https://book-an-appointment-backend.herokuapp.com/auth_teacher/validate_token',
         {
           headers: {
             uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
@@ -99,7 +99,7 @@ const IndexForAdmins = props => {
     let i = 0;
     const AdminId = JSON.parse(localStorage.getItem('currentAdmin')).myResponse.id;
     axios
-      .get(`http://localhost:3001/show/${AdminId}`)
+      .get(`https://book-an-appointment-backend.herokuapp.com/show/${AdminId}`)
       .then(response => {
         console.log(response.data);
         const a = response.data.appointments;
@@ -127,7 +127,7 @@ const IndexForAdmins = props => {
   }, []);
 
   const handleLogOut = () => {
-    axios.delete('http://localhost:3001/auth_teacher/sign_out', {
+    axios.delete('https://book-an-appointment-backend.herokuapp.com/auth_teacher/sign_out', {
       headers: {
         uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
         client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
@@ -152,7 +152,7 @@ const IndexForAdmins = props => {
   };
 
   const sendPhotoToAPI = () => {
-    axios.patch('http://localhost:3001/auth_teacher', {
+    axios.patch('https://book-an-appointment-backend.herokuapp.com/auth_teacher', {
       image: photo,
       email: props.emailForAdmin,
       password: props.passwordForAdmin,
@@ -178,7 +178,7 @@ const IndexForAdmins = props => {
   const handleAppointmentAnswer = (e, element) => {
     console.log(e.target.value);
     if (e.target.value === 'Accept') {
-      axios.patch(`http://localhost:3001/appointments/${element.id}`, {
+      axios.patch(`https://book-an-appointment-backend.herokuapp.com/appointments/${element.id}`, {
         appointment: {
           status: 'accepted',
         },
@@ -187,7 +187,7 @@ const IndexForAdmins = props => {
           getTeacherFromAPI();
         });
     } else {
-      axios.patch(`http://localhost:3001/appointments/${element.id}`, {
+      axios.patch(`https://book-an-appointment-backend.herokuapp.com/appointments/${element.id}`, {
         appointment: {
           status: 'none',
         },
