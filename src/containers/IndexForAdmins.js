@@ -171,15 +171,19 @@ const IndexForAdmins = props => {
         appointment: {
           status: 'accepted',
         },
-      });
-      window.location.reload();
+      })
+        .then(() => {
+          getTeacherFromAPI();
+        });
     } else {
       axios.patch(`http://localhost:3001/appointments/${element.id}`, {
         appointment: {
           status: 'none',
         },
-      });
-      window.location.reload();
+      })
+        .then(() => {
+          getTeacherFromAPI();
+        });
     }
   };
 
