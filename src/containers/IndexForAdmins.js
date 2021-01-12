@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
@@ -66,6 +67,7 @@ const IndexForAdmins = props => {
   const [mydetails, setDetails] = useState('');
   const [currentTeacher, setCurrentTeacher] = useState([]);
   let i = -1;
+  let responseVar = null;
 
   const checkLoginStatus = () => {
     axios
@@ -88,7 +90,8 @@ const IndexForAdmins = props => {
         }
       })
       .catch(error => {
-        console.log(error);
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
@@ -111,6 +114,10 @@ const IndexForAdmins = props => {
         });
         setAppointmentsForAdmin(lastVersion);
         setCurrentTeacher(response.data.cur_teacher);
+      })
+      .catch(error => {
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
@@ -132,7 +139,8 @@ const IndexForAdmins = props => {
       ))
       .then(() => props.history.push('/'))
       .catch(error => {
-        console.log(error);
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
@@ -142,7 +150,6 @@ const IndexForAdmins = props => {
       setImage(URL.createObjectURL(img));
     }
   };
-  let responseVar = null;
 
   const sendPhotoToAPI = () => {
     axios.patch('http://localhost:3001/auth_teacher', {
@@ -160,10 +167,11 @@ const IndexForAdmins = props => {
     })
       .then(response => {
         responseVar = response.data.status;
-        setTimeout(() => { alert(responseVar); }, 1000);
+        setTimeout(() => { alert(responseVar); }, 500);
       })
       .catch(error => {
-        console.log(error);
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable camelcase */
 /* eslint-disable no-console */
 /* eslint-disable react/destructuring-assignment */
@@ -6,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { loginUser, logoutUser } from '../actions/index';
+import NavBar from '../components/NavBar';
 
 const mapStateToProps = state => {
   const {
@@ -58,6 +60,7 @@ const Index = props => {
   const [teacherDetails, setTeacherDetails] = useState([]);
   const [dateNow, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [userId, setUserId] = useState(null);
+  let responseVar = null;
 
   const checkLoginStatus = () => {
     axios
@@ -85,7 +88,8 @@ const Index = props => {
         }
       })
       .catch(error => {
-        console.log(error);
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
@@ -119,7 +123,8 @@ const Index = props => {
       })
       .then(() => props.history.push('/'))
       .catch(error => {
-        console.log(error);
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
@@ -138,11 +143,16 @@ const Index = props => {
             status: 'pending',
           },
         });
+      })
+      .catch(error => {
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
   return (
     <div className="w-50 mx-auto text-center">
+      <NavBar />
       <div><h1>Welcome to Students&apos; Panel</h1></div>
       <div>{props.isLoggedIn ? `You are logged in as ${email}` : 'Not authorized'}</div>
       <div>
@@ -153,6 +163,8 @@ const Index = props => {
             <div key={i} className="card mb-3 py-3 shadow-lg">
               <div>{element.email}</div>
               <div className="img-container mx-auto my-4"><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></div>
+              <div><p>{element.nickname}</p></div>
+              <div><p>{element.details}</p></div>
               <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
               <button type="button" className="btn btn-primary w-25 mx-auto" onClick={() => handleAppointment(element)}>Apply</button>
             </div>

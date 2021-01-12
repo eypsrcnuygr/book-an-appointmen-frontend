@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
@@ -104,7 +105,7 @@ const App = props => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
         responseVar = errorMessage;
-        setTimeout(() => { alert(responseVar); }, 1000);
+        setTimeout(() => { alert(responseVar); }, 500);
         return error.response;
       });
 
@@ -142,7 +143,7 @@ const App = props => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
         responseVar = errorMessage;
-        setTimeout(() => { alert(responseVar); }, 1000);
+        setTimeout(() => { alert(responseVar); }, 500);
         return error.response;
       });
 
@@ -182,7 +183,7 @@ const App = props => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
         responseVar = errorMessage;
-        setTimeout(() => { alert(responseVar); }, 1000);
+        setTimeout(() => { alert(responseVar); }, 500);
         return error.response;
       });
 
@@ -222,7 +223,7 @@ const App = props => {
         setHasError(true);
         setErrorMessage(error.response.statusText);
         responseVar = errorMessage;
-        setTimeout(() => { alert(responseVar); }, 1000);
+        setTimeout(() => { alert(responseVar); }, 500);
         return error.response;
       });
 
