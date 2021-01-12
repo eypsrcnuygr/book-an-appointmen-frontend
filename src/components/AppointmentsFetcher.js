@@ -14,7 +14,7 @@ const AppointmentsFetcher = () => {
 
   const checkLoginStatus = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/validate_token',
+      .get('https://book-an-appointment-backend.herokuapp.com/auth/validate_token',
         {
           headers: {
             uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
