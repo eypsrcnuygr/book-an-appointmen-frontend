@@ -1,19 +1,12 @@
 /* eslint-disable jsx-a11y/aria-role */
-/* eslint-disable react/jsx-tag-spacing */
 /* eslint-disable no-alert */
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-/* eslint-disable no-console */
-/* eslint-disable max-len */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
+
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Widget } from '@uploadcare/react-widget';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { logoutAdmin, loginAdmin } from '../actions/index';
 
 const mapStateToProps = state => {
@@ -63,14 +56,18 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const IndexForAdmins = props => {
-  const [photo, setImage] = useState(props.image);
-  const [emailForAdminVar, setEmailForAdminVar] = useState(props.emailForAdmin);
+  const { image } = props;
+  const { emailForAdmin } = props;
+  const { isAdminLoggedIn } = props;
+  const [photo, setImage] = useState(image);
+  const [emailForAdminVar, setEmailForAdminVar] = useState(emailForAdmin);
   const [appointmentsForAdmin, setAppointmentsForAdmin] = useState([]);
   const [nickName, setNickName] = useState('');
   const [mydetails, setDetails] = useState('');
   const [currentTeacher, setCurrentTeacher] = useState([]);
   let i = -1;
   let responseVar = null;
+  let renderedPicture = null;
 
   const checkLoginStatus = () => {
     axios
@@ -83,10 +80,10 @@ const IndexForAdmins = props => {
           },
         })
       .then(response => {
-        console.log(response.data.data);
         if (response.data.success && !props.isAdminLoggedIn) {
-          props.loginAdminFromComponent({ admin: { email: response.data.data.email, password: props.passwordForAdmin } });
-          // props.history.push('/logged_in_admin');
+          props.loginAdminFromComponent(
+            { admin: { email: response.data.data.email, password: props.passwordForAdmin } },
+          );
           setEmailForAdminVar(response.data.data.email);
         } else if (!response.data.success && props.isAdminLoggedIn) {
           props.logoutAdminFromComponent();
@@ -104,10 +101,8 @@ const IndexForAdmins = props => {
     axios
       .get(`http://localhost:3001/show/${AdminId}`)
       .then(response => {
-        console.log(response.data);
         const a = response.data.appointments;
         const b = response.data.users_mails;
-        console.log(b);
         const lastVersion = [];
         a.forEach(element => {
           const first_version = element;
@@ -149,7 +144,6 @@ const IndexForAdmins = props => {
 
   const onImageUpload = event => {
     setImage(event.originalUrl);
-    console.log(event);
   };
 
   const sendPhotoToAPI = () => {
@@ -177,7 +171,6 @@ const IndexForAdmins = props => {
   };
 
   const handleAppointmentAnswer = (e, element) => {
-    console.log(e.target.value);
     if (e.target.value === 'Accept') {
       axios.patch(`http://localhost:3001/appointments/${element.id}`, {
         appointment: {
@@ -199,8 +192,6 @@ const IndexForAdmins = props => {
     }
   };
 
-  let renderedPicture = null;
-
   if (photo) {
     renderedPicture = <img src={photo} alt="teacher" className="rounded-circle img-fluid" />;
   } else if (currentTeacher.image) {
@@ -212,7 +203,7 @@ const IndexForAdmins = props => {
   return (
     <div className="text-center card w-50 mx-auto shadow-lg my-5 py-5">
       <div><h1>Welcome to Teachers&apos; Panel</h1></div>
-      <div>{props.isAdminLoggedIn ? `You are logged in as ${emailForAdminVar}` : 'No'}</div>
+      <div>{isAdminLoggedIn ? `You are logged in as ${emailForAdminVar}` : 'No'}</div>
       <div className="img-container mx-auto">
         {renderedPicture}
       </div>
@@ -230,7 +221,7 @@ const IndexForAdmins = props => {
       {!currentTeacher.nickname || !currentTeacher.details || !currentTeacher.image
         ? (
           <div className="d-flex flex-column">
-            <Widget publicKey="aa727786fe030a1ce7a9" id="file" role="uploadcare-uploader" onChange={event => onImageUpload(event)}/>
+            <Widget publicKey="aa727786fe030a1ce7a9" id="file" role="uploadcare-uploader" onChange={event => onImageUpload(event)} />
             <button type="button" className="btn btn-success my-3 w-25 mx-auto" onClick={sendPhotoToAPI}>Upload</button>
           </div>
         )
@@ -240,7 +231,8 @@ const IndexForAdmins = props => {
         if (element.status === 'pending') {
           return (
             <div key={i} className="card w-75 mx-auto mb-3 shadow py-3">
-              <p className="card-text">User with
+              <p className="card-text">
+                User with
                 {' '}
                 <b>{element.user_mail}</b>
                 {' '}
@@ -258,6 +250,30 @@ const IndexForAdmins = props => {
     </div>
 
   );
+};
+
+IndexForAdmins.propTypes = {
+  isAdminLoggedIn: PropTypes.bool,
+  image: PropTypes.string,
+  emailForAdmin: PropTypes.string,
+  email: PropTypes.string,
+  history: PropTypes.instanceOf(Object),
+  passwordForAdmin: PropTypes.string,
+  password: PropTypes.string,
+  loginAdminFromComponent: PropTypes.instanceOf(Object),
+  logoutAdminFromComponent: PropTypes.instanceOf(Object),
+};
+
+IndexForAdmins.defaultProps = {
+  isAdminLoggedIn: false,
+  image: '',
+  emailForAdmin: '',
+  email: '',
+  history: {},
+  passwordForAdmin: '',
+  password: '',
+  loginAdminFromComponent: {},
+  logoutAdminFromComponent: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexForAdmins);

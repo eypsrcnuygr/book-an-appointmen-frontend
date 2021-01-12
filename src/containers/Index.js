@@ -1,10 +1,8 @@
 /* eslint-disable no-alert */
 /* eslint-disable camelcase */
-/* eslint-disable no-console */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { loginUser, logoutUser } from '../actions/index';
 import NavBar from '../components/NavBar';
@@ -56,10 +54,12 @@ const mapDispatchToProps = dispatch => ({
 
 const Index = props => {
   let i = -1;
-  const [email, setEmail] = useState(props.email);
+  const { email } = props;
+  const [emailState, setEmail] = useState(email);
   const [teacherDetails, setTeacherDetails] = useState([]);
   const [dateNow, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [userId, setUserId] = useState(null);
+  const { isLoggedIn } = props;
   let responseVar = null;
 
   const checkLoginStatus = () => {
@@ -97,7 +97,6 @@ const Index = props => {
     axios
       .get('http://localhost:3001/teachers')
       .then(response => {
-        console.log(response);
         setTeacherDetails(response.data.data);
       });
   };
@@ -115,12 +114,9 @@ const Index = props => {
         'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
       },
     })
-      .then(response => {
-        console.log(response);
-        return (
-          props.logoutUserFromComponent()
-        );
-      })
+      .then(() => (
+        props.logoutUserFromComponent()
+      ))
       .then(() => props.history.push('/'))
       .catch(error => {
         responseVar = error.response.statusText;
@@ -154,7 +150,7 @@ const Index = props => {
     <div className="w-50 mx-auto text-center mb-5">
       <NavBar />
       <div><h1>Welcome to Students&apos; Panel</h1></div>
-      <div>{props.isLoggedIn ? `You are logged in as ${email}` : 'Not authorized'}</div>
+      <div>{isLoggedIn ? `You are logged in as ${emailState}` : 'Not authorized'}</div>
       <div>
         <h2>Here Are the Registrated Teachers</h2>
         {teacherDetails.map(element => {
@@ -173,8 +169,25 @@ const Index = props => {
       </div>
       <button type="button" className="btn btn-danger my-4" onClick={handleLogOut}>Log Out</button>
     </div>
-
   );
+};
+
+Index.propTypes = {
+  logoutUserFromComponent: PropTypes.instanceOf(Object),
+  isLoggedIn: PropTypes.bool,
+  password: PropTypes.string,
+  email: PropTypes.string,
+  history: PropTypes.instanceOf(Object),
+  loginUserFromComponent: PropTypes.instanceOf(Object),
+};
+
+Index.defaultProps = {
+  logoutUserFromComponent: {},
+  isLoggedIn: false,
+  password: '',
+  email: '',
+  history: {},
+  loginUserFromComponent: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

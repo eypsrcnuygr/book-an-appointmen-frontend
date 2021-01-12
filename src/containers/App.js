@@ -7,6 +7,7 @@ import axios from 'axios';
 import {
   createUser, loginUser, createAdmin, loginAdmin,
 } from '../actions/index';
+import { SetLocalStorageForUser, setLocalStorageForAdmin } from '../helpers/SetLocalStorage';
 
 const mapStateToProps = state => {
   const {
@@ -78,13 +79,7 @@ const App = props => {
       password_confirmation,
     }).then(response => {
       if (response.data.status === 'success') {
-        const myResponse = response.data.data;
-        const myUid = response.headers.uid;
-        const myClient = response.headers.client;
-        const myAccessToken = response.headers['access-token'];
-        localStorage.setItem('currentUser', JSON.stringify({
-          myResponse, myUid, myClient, myAccessToken,
-        }));
+        SetLocalStorageForUser(response);
         props.createUserFromComponent({
           user: {
             email,
@@ -116,13 +111,7 @@ const App = props => {
       password_confirmation: password_confirmationForAdmin,
     }).then(response => {
       if (response.data.status === 'success') {
-        const myResponse = response.data.data;
-        const myUid = response.headers.uid;
-        const myClient = response.headers.client;
-        const myAccessToken = response.headers['access-token'];
-        localStorage.setItem('currentAdmin', JSON.stringify({
-          myResponse, myUid, myClient, myAccessToken,
-        }));
+        setLocalStorageForAdmin(response);
         props.createAdminFromComponent({
           admin: {
             email: emailForAdmin,
@@ -159,13 +148,7 @@ const App = props => {
       },
     }).then(response => {
       if (response.status === 200) {
-        const myResponse = response.data.data;
-        const myUid = response.headers.uid;
-        const myClient = response.headers.client;
-        const myAccessToken = response.headers['access-token'];
-        localStorage.setItem('currentAdmin', JSON.stringify({
-          myResponse, myUid, myClient, myAccessToken,
-        }));
+        setLocalStorageForAdmin(response);
         props.loginAdminFromComponent({
           admin: {
             email: emailForAdminLogin,
@@ -198,13 +181,7 @@ const App = props => {
       },
     }).then(response => {
       if (response.status === 200) {
-        const myResponse = response.data.data;
-        const myUid = response.headers.uid;
-        const myClient = response.headers.client;
-        const myAccessToken = response.headers['access-token'];
-        localStorage.setItem('currentUser', JSON.stringify({
-          myResponse, myUid, myClient, myAccessToken,
-        }));
+        SetLocalStorageForUser(response);
         props.loginUserFromComponent({
           user: {
             email: emailForLogin,

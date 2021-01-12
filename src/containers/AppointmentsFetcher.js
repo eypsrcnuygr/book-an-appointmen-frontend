@@ -61,7 +61,7 @@ const AppointmentsFetcher = () => {
           i += 1;
           invitationNumber += 1;
           return (
-            <div key={i} className="card text-center w-50 mx-auto my-3 shadow-lg py-4">
+            <div key={i} className="card text-center w-50 mx-auto my-5 shadow-lg py-4">
               <h2 className="card-title">
                 Your invitation
                 {' '}
