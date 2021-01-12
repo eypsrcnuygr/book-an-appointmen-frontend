@@ -10,6 +10,7 @@ const AppointmentsFetcher = () => {
   const [currentUser, setCurrentUser] = useState('');
   let i = -1;
   let index = 0;
+  let invitationNumber = 0;
 
   const checkLoginStatus = () => {
     axios
@@ -59,12 +60,13 @@ const AppointmentsFetcher = () => {
       {Object.values(appointmentsState)
         .filter(element => element.user_mail === currentUser).map(element => {
           i += 1;
+          invitationNumber += 1;
           return (
             <div key={i} className="card text-center w-50 mx-auto my-3 shadow-lg py-4">
               <h2 className="card-title">
                 Your invitation
                 {' '}
-                {element.id}
+                {invitationNumber}
               </h2>
               <div>
                 The Date is:
