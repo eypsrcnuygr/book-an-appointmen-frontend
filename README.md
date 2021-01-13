@@ -37,7 +37,7 @@ Here is the live [link](https://book-an-appointment-frontend.herokuapp.com/)
 **Repository Content**
 
 - The src folder contains components, containers helpers and for Redux; actions, reducers and store folders. There is also a tests folder, which has 2 files in it.
-It checks the succesfull API call and control the UI based on a mock store for the App component and.
+It checks the succesfull API call and control the UI based on a mock store for the App component.
 - To run tests in the app folder run ```yarn test```.
 
 ## Authors
