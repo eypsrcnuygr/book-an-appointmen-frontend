@@ -209,6 +209,7 @@ const App = props => {
         <input
           type="email"
           name="email"
+          id="myMailForTest"
           placeholder="Email"
           value={email}
           onChange={event => setEmail(event.target.value)}
@@ -218,6 +219,7 @@ const App = props => {
         <input
           type="password"
           name="password"
+          id="myPasswordForTest"
           placeholder="Password"
           value={password}
           onChange={event => setPassword(event.target.value)}
@@ -227,13 +229,14 @@ const App = props => {
         <input
           type="password"
           name="password_confirmation"
+          id="myPasswordConfirmationForTest"
           placeholder="Password-Confirmation"
           value={password_confirmation}
           onChange={event => setPasswordConfirmation(event.target.value)}
           required
           className="form-control mb-2"
         />
-        <button type="button" className="btn btn-success mt-3" onClick={handleSubmit}>Sign Up</button>
+        <button type="button" className="btn btn-success mt-3" id="myButtonForTest" onClick={handleSubmit}>Sign Up</button>
       </form>
 
       <form className="text-center mb-5 w-50 mx-auto">
