@@ -243,6 +243,7 @@ const App = props => {
         <input
           type="email"
           name="email"
+          data-testid="custom-element"
           placeholder="Email"
           value={emailForLogin}
           onChange={event => setEmailForLogin(event.target.value)}
@@ -252,13 +253,14 @@ const App = props => {
         <input
           type="password"
           name="password"
+          data-testid="custom-element2"
           placeholder="Password"
           value={passwordForLogin}
           onChange={event => setPasswordForLogin(event.target.value)}
           required
           className="form-control mb-2"
         />
-        <button type="button" className="btn btn-primary mt-3" onClick={handleSubmitForLogin}>Sign In</button>
+        <button type="button" className="btn btn-primary mt-3" data-testid="custom-element3" onClick={handleSubmitForLogin}>Sign In</button>
       </form>
 
       <div className="text-center"><h2 className="font-weight-bolder">Or Are You a TEACHER?</h2></div>
