@@ -64,7 +64,7 @@ const Index = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/auth/validate_token',
+      .get('http://localhost:3001/auth/validate_token',
         {
           headers: {
             uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
@@ -95,7 +95,7 @@ const Index = props => {
 
   const getTeachersFromAPI = () => {
     axios
-      .get('https://book-an-appointment-backend.herokuapp.com/teachers')
+      .get('http://localhost:3001/teachers')
       .then(response => {
         setTeacherDetails(response.data.data);
       });
@@ -107,7 +107,7 @@ const Index = props => {
   }, []);
 
   const handleLogOut = () => {
-    axios.delete('https://book-an-appointment-backend.herokuapp.com/auth/sign_out', {
+    axios.delete('http://localhost:3001/auth/sign_out', {
       headers: {
         uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
         client: JSON.parse(localStorage.getItem('currentUser')).myClient,
@@ -126,7 +126,7 @@ const Index = props => {
 
   const handleAppointment = element => {
     axios
-      .post('https://book-an-appointment-backend.herokuapp.com/appointments', {
+      .post('http://localhost:3001/appointments', {
         appointment: {
           user_id: userId,
           teacher_id: element.id,
@@ -134,7 +134,7 @@ const Index = props => {
         },
       })
       .then(response => {
-        axios.patch(`https://book-an-appointment-backend.herokuapp.com/appointments/${response.data.id}`, {
+        axios.patch(`http://localhost:3001/appointments/${response.data.id}`, {
           appointment: {
             status: 'pending',
           },

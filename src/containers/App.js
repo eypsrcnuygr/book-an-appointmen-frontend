@@ -73,7 +73,7 @@ const App = props => {
   let responseVar = null;
 
   const handleSubmit = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/auth', {
+    axios.post('http://localhost:3001/auth', {
       email,
       password,
       password_confirmation,
@@ -105,7 +105,7 @@ const App = props => {
   };
 
   const handleSubmitForAdminRegistration = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/auth_teacher', {
+    axios.post('http://localhost:3001/auth_teacher', {
       email: emailForAdmin,
       password: passwordForAdmin,
       password_confirmation: password_confirmationForAdmin,
@@ -137,7 +137,7 @@ const App = props => {
   };
 
   const handleSubmitForAdminLogin = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/auth_teacher/sign_in', {
+    axios.post('http://localhost:3001/auth_teacher/sign_in', {
       email: emailForAdminLogin,
       password: passwordForAdminLogin,
     }, {
@@ -170,7 +170,7 @@ const App = props => {
   };
 
   const handleSubmitForLogin = event => {
-    axios.post('https://book-an-appointment-backend.herokuapp.com/auth/sign_in', {
+    axios.post('http://localhost:3001/auth/sign_in', {
       email: emailForLogin,
       password: passwordForLogin,
     }, {
