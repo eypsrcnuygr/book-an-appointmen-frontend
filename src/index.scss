@@ -1,5 +1,7 @@
-html, #root {
+html,
+#root {
   height: 100% !important;
+  margin-bottom: 0;
 }
 
 body {
@@ -19,6 +21,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100% !important;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 code {
@@ -44,6 +49,9 @@ code {
 
 .myFooter {
   background-color: rgba(0, 0, 0, 0.2) !important;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .Link {
@@ -53,7 +61,7 @@ code {
 .Link2 {
   color: black;
   font-size: 1.8rem;
-  
+
   &:hover {
     text-decoration: none;
     color: black;
@@ -77,8 +85,9 @@ code {
   height: 94.3%;
 }
 
-.light-bg, .myDiv {
-  background-color: #F1F1F1;
+.light-bg,
+.myDiv {
+  background-color: #f1f1f1;
 }
 
 .myOpacity {

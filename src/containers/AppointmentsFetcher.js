@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import axios from 'axios';
+import { Slide } from 'react-slideshow-image';
 import { useEffect, useState } from 'react';
 import NavBar from '../components/NavBar';
 
@@ -62,36 +63,38 @@ const AppointmentsFetcher = () => {
   return (
     <div>
       <NavBar />
-      {Object.values(appointmentsState)
-        .filter(element => element.user_mail === currentUser).map(element => {
-          i += 1;
-          invitationNumber += 1;
-          return (
-            <div key={i} className="card text-center w-50 mx-auto my-5 shadow-lg py-4">
-              <h2 className="card-title">
-                Your invitation
-                {' '}
-                {invitationNumber}
-              </h2>
-              <div>
-                The Date is:
-                {' '}
-                <b>{element.date}</b>
+      <Slide className="w-75 mx-auto mt-5">
+        {Object.values(appointmentsState)
+          .filter(element => element.user_mail === currentUser).map(element => {
+            i += 1;
+            invitationNumber += 1;
+            return (
+              <div key={i} className="card text-center w-50 mx-auto my-5 shadow-lg py-4">
+                <h2 className="card-title">
+                  Your invitation
+                  {' '}
+                  {invitationNumber}
+                </h2>
+                <div>
+                  The Date is:
+                  {' '}
+                  <b>{element.date}</b>
+                </div>
+                <div>
+                  The teacher is:
+                  {' '}
+                  <b>{element.teacher_mail}</b>
+                </div>
+                <div>
+                  The invitation status is:
+                  {' '}
+                  <b>{element.status}</b>
+                </div>
               </div>
-              <div>
-                The teacher is:
-                {' '}
-                <b>{element.teacher_mail}</b>
-              </div>
-              <div>
-                The invitation status is:
-                {' '}
-                <b>{element.status}</b>
-              </div>
-            </div>
 
-          );
-        })}
+            );
+          })}
+      </Slide>
     </div>
   );
 };

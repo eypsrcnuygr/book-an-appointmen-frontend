@@ -110,7 +110,7 @@ const Teacher = props => {
   return (
     <div className="h-100">
       <div className="row h-100 w-100">
-        <div className="col-3 pl-3 height light-bg mb-0 pb-0 d-flex justify-content-center">
+        <div className="col-3 pl-3 height light-bg mb-0 pb-0 d-flex justify-content-center pt-3">
           <h1><Link to="/logged_in" className="Link2">Book an Appointment</Link></h1>
         </div>
         <div className="col-6 height px-0 myOpacity">
