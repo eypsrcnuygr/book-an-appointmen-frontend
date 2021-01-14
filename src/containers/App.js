@@ -203,7 +203,7 @@ const App = props => {
   };
 
   return (
-    <>
+    <div className="yellowbg d-flex flex-column">
       <h1 className="text-center font-weight-bold">Welcome STUDENTS</h1>
       <form className="text-center mb-4 w-50 mx-auto mt-4">
         <input
@@ -239,7 +239,7 @@ const App = props => {
         <button type="button" className="btn btn-success mt-3" id="myButtonForTest" onClick={handleSubmit}>Sign Up</button>
       </form>
 
-      <form className="text-center mb-5 w-50 mx-auto">
+      <form className="text-center mb-3 w-50 mx-auto">
         <input
           type="email"
           name="email"
@@ -295,7 +295,7 @@ const App = props => {
         <button type="button" className="btn btn-success mt-3" onClick={handleSubmitForAdminRegistration}>Sign Up</button>
       </form>
 
-      <form className="text-center mb-5 w-50 mx-auto">
+      <form className="text-center mb-4 w-50 mx-auto">
         <input
           type="email"
           name="email"
@@ -317,7 +317,7 @@ const App = props => {
         <button type="button" className="btn btn-primary mt-3" onClick={handleSubmitForAdminLogin}>Sign In</button>
       </form>
       {hasError ? <div>{errorMessage}</div> : null}
-    </>
+    </div>
   );
 };
 

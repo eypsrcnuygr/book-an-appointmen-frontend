@@ -114,7 +114,7 @@ const Teacher = props => {
           <h1><Link to="/logged_in" className="Link2">Book an Appointment</Link></h1>
         </div>
         <div className="col-6 height px-0 myOpacity">
-          <div className="h-100"><img src={currentTeacher.image} alt="current teacher" className="h-100 py-5 img-fluid" /></div>
+          <div className="h-100"><img src={currentTeacher.image} alt="current teacher" className="py-5 img-fluid" /></div>
         </div>
         <div className="col-3 height pr-3 pl-5 pt-5 d-flex flex-column justify-content-around">
           <div>

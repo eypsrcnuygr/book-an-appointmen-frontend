@@ -2,6 +2,8 @@ html,
 #root {
   height: 100% !important;
   margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
@@ -48,10 +50,7 @@ code {
 }
 
 .myFooter {
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
 }
 
 .Link {
@@ -82,7 +81,7 @@ code {
 }
 
 .height {
-  height: 94.3%;
+  height: 100%;
 }
 
 .light-bg,
@@ -92,4 +91,8 @@ code {
 
 .myOpacity {
   opacity: 0.9;
+}
+
+.yellowbg {
+  background-color: #f3b518;
 }
