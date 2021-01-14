@@ -81,7 +81,6 @@ const Index = props => {
               password: props.password,
             },
           });
-          // props.history.push('/logged_in');
           setEmail(response.data.data.email);
         } else if (!response.data.success && props.isLoggedIn) {
           props.logoutUserFromComponent();
@@ -95,7 +94,13 @@ const Index = props => {
 
   const getTeachersFromAPI = () => {
     axios
-      .get('http://localhost:3001/teachers')
+      .get('http://localhost:3001/teachers', {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+          client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
+        },
+      })
       .then(response => {
         setTeacherDetails(response.data.data);
       });
@@ -132,11 +137,23 @@ const Index = props => {
           teacher_id: element.id,
           date: dateNow,
         },
+      }, {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+          client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
+        },
       })
       .then(response => {
         axios.patch(`http://localhost:3001/appointments/${response.data.id}`, {
           appointment: {
             status: 'pending',
+          },
+        }, {
+          headers: {
+            uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+            client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+            'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
           },
         });
       })
