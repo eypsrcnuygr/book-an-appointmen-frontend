@@ -31,7 +31,13 @@ const AppointmentsFetcher = () => {
 
   const FetchAppointments = () => {
     axios
-      .get('http://localhost:3001/appointments')
+      .get('http://localhost:3001/appointments', {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
+          client: JSON.parse(localStorage.getItem('currentUser')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
+        },
+      })
       .then(response => {
         const userVar = (response.data.users);
         const a = response.data.appointments;

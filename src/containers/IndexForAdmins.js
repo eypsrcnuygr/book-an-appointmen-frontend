@@ -99,7 +99,13 @@ const IndexForAdmins = props => {
     let i = 0;
     const AdminId = JSON.parse(localStorage.getItem('currentAdmin')).myResponse.id;
     axios
-      .get(`http://localhost:3001/show/${AdminId}`)
+      .get(`http://localhost:3001/show/${AdminId}`, {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+          client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+        },
+      })
       .then(response => {
         const a = response.data.appointments;
         const b = response.data.users_mails;
@@ -176,6 +182,12 @@ const IndexForAdmins = props => {
         appointment: {
           status: 'accepted',
         },
+      }, {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+          client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
+        },
       })
         .then(() => {
           getTeacherFromAPI();
@@ -184,6 +196,12 @@ const IndexForAdmins = props => {
       axios.patch(`http://localhost:3001/appointments/${element.id}`, {
         appointment: {
           status: 'none',
+        },
+      }, {
+        headers: {
+          uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
+          client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
+          'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
         },
       })
         .then(() => {
