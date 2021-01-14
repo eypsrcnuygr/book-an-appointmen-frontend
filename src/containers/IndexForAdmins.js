@@ -166,9 +166,8 @@ const IndexForAdmins = props => {
         access_token: JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
       },
     })
-      .then(response => {
-        responseVar = response.data.status;
-        setTimeout(() => { alert(responseVar); }, 500);
+      .then(() => {
+        getTeacherFromAPI();
       })
       .catch(error => {
         responseVar = error.response.statusText;

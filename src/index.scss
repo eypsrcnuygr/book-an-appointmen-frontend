@@ -1,3 +1,7 @@
+html, #root {
+  height: 100% !important;
+}
+
 body {
   margin: 0;
   font-family:
@@ -14,6 +18,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100% !important;
 }
 
 code {
@@ -43,4 +48,39 @@ code {
 
 .Link {
   font-size: 1.5rem;
+}
+
+.Link2 {
+  color: black;
+  font-size: 1.8rem;
+  
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.Link3 {
+  color: white;
+
+  &:hover {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.specific-teacher {
+  margin-top: 5%;
+}
+
+.height {
+  height: 94.3%;
+}
+
+.light-bg, .myDiv {
+  background-color: #F1F1F1;
+}
+
+.myOpacity {
+  opacity: 0.9;
 }

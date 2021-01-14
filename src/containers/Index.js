@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { loginUser, logoutUser } from '../actions/index';
 import NavBar from '../components/NavBar';
 
@@ -156,6 +157,8 @@ const Index = props => {
             'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
           },
         });
+        responseVar = response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       })
       .catch(error => {
         responseVar = error.response.statusText;
@@ -175,7 +178,7 @@ const Index = props => {
           return (
             <div key={i} className="card mb-3 py-3 shadow-lg">
               <div>{element.email}</div>
-              <div className="img-container mx-auto my-4"><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></div>
+              <div className="img-container mx-auto my-4"><Link to={`teachers/${element.id}`}><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></Link></div>
               <div><p>{element.nickname}</p></div>
               <div><p>{element.details}</p></div>
               <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
