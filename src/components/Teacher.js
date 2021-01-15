@@ -1,10 +1,9 @@
 /* eslint-disable no-alert */
 /* eslint-disable camelcase */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { loginUser, logoutUser } from '../actions/index';
 
@@ -133,6 +132,22 @@ const Teacher = props => {
     </div>
 
   );
+};
+
+Teacher.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  password: PropTypes.string,
+  match: PropTypes.instanceOf(Object),
+  logoutUserFromComponent: PropTypes.instanceOf(Object),
+  loginUserFromComponent: PropTypes.instanceOf(Object),
+};
+
+Teacher.defaultProps = {
+  isLoggedIn: false,
+  password: {},
+  match: {},
+  logoutUserFromComponent: {},
+  loginUserFromComponent: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Teacher);
