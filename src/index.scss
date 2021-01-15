@@ -1,3 +1,11 @@
+html,
+#root {
+  height: 100% !important;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   margin: 0;
   font-family:
@@ -14,6 +22,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100% !important;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 code {
@@ -38,9 +50,49 @@ code {
 }
 
 .myFooter {
-  background-color: rgba(0, 0, 0, 0.2) !important;
+  margin-top: auto;
 }
 
 .Link {
   font-size: 1.5rem;
+}
+
+.Link2 {
+  color: black;
+  font-size: 1.8rem;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+.Link3 {
+  color: white;
+
+  &:hover {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.specific-teacher {
+  margin-top: 5%;
+}
+
+.height {
+  height: 100%;
+}
+
+.light-bg,
+.myDiv {
+  background-color: #f1f1f1;
+}
+
+.myOpacity {
+  opacity: 0.9;
+}
+
+.yellowbg {
+  background-color: #f3b518;
 }

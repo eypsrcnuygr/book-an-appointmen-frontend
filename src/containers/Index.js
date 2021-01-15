@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { loginUser, logoutUser } from '../actions/index';
 import NavBar from '../components/NavBar';
 
@@ -156,6 +159,8 @@ const Index = props => {
             'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
           },
         });
+        responseVar = response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       })
       .catch(error => {
         responseVar = error.response.statusText;
@@ -170,19 +175,25 @@ const Index = props => {
       <div>{isLoggedIn ? `You are logged in as ${emailState}` : 'Not authorized'}</div>
       <div>
         <h2>Here Are the Registrated Teachers</h2>
-        {teacherDetails.map(element => {
-          i += 1;
-          return (
-            <div key={i} className="card mb-3 py-3 shadow-lg">
-              <div>{element.email}</div>
-              <div className="img-container mx-auto my-4"><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></div>
-              <div><p>{element.nickname}</p></div>
-              <div><p>{element.details}</p></div>
-              <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
-              <button type="button" className="btn btn-primary w-25 mx-auto" onClick={() => handleAppointment(element)}>Apply</button>
-            </div>
-          );
-        })}
+        <div>
+          <Slide autoplay={false}>
+            {teacherDetails.map(element => {
+              i += 1;
+              return (
+                <div key={i} className="card py-3 shadow-lg each-slide">
+                  <div>
+                    <div>{element.email}</div>
+                    <div className="img-container mx-auto my-4"><Link to={`teachers/${element.id}`}><img src={element.image} className="img-fluid rounded-circle image" alt="teacher" /></Link></div>
+                    <div><p>{element.nickname}</p></div>
+                    <div><p>{element.details}</p></div>
+                    <input className="form-control w-50 mx-auto my-3" type="date" onChange={e => setDate(e.target.value)} value={dateNow} />
+                    <button type="button" className="btn btn-primary w-25 mx-auto" onClick={() => handleAppointment(element)}>Apply</button>
+                  </div>
+                </div>
+              );
+            })}
+          </Slide>
+        </div>
       </div>
       <button type="button" className="btn btn-danger my-4" onClick={handleLogOut}>Log Out</button>
     </div>
