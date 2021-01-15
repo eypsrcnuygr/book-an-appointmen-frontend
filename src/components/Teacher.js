@@ -59,7 +59,7 @@ const Teacher = props => {
 
   const checkLoginStatus = () => {
     axios
-      .get('http://localhost:3001/auth/validate_token',
+      .get('https://book-an-appointment-backend.herokuapp.com/auth/validate_token',
         {
           headers: {
             uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
@@ -87,7 +87,7 @@ const Teacher = props => {
 
   const getTeacherFromAPI = () => {
     axios
-      .get(`http://localhost:3001/show/${props.match.params.id}`, {
+      .get(`https://book-an-appointment-backend.herokuapp.com/show/${props.match.params.id}`, {
         headers: {
           uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
           client: JSON.parse(localStorage.getItem('currentUser')).myClient,
