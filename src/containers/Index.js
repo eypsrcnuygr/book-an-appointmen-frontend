@@ -65,6 +65,7 @@ const Index = props => {
   const [myDiv, setMyDiv] = useState(null);
   const { isLoggedIn } = props;
   let responseVar = null;
+  let isCancelled = false;
 
   const checkLoginStatus = () => {
     axios
@@ -77,7 +78,9 @@ const Index = props => {
           },
         })
       .then(response => {
-        setUserId(response.data.data.id);
+        if (!isCancelled) {
+          setUserId(response.data.data.id);
+        }
         if (response.data.success && !props.isLoggedIn) {
           props.loginUserFromComponent({
             user: {
@@ -106,13 +109,24 @@ const Index = props => {
         },
       })
       .then(response => {
-        setTeacherDetails(response.data.data);
+        if (!isCancelled) {
+          setTeacherDetails(response.data.data);
+        }
+      })
+      .catch(error => {
+        responseVar = error.response.statusText;
+        setTimeout(() => { alert(responseVar); }, 500);
       });
   };
 
   useEffect(() => {
-    checkLoginStatus();
-    getTeachersFromAPI();
+    if (!isCancelled) {
+      checkLoginStatus();
+      getTeachersFromAPI();
+    }
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   const handleLogOut = () => {
@@ -198,7 +212,7 @@ const Index = props => {
           </Slide>
         </div>
       </div>
-      <button type="button" className="btn btn-danger my-4" onClick={handleLogOut}>Log Out</button>
+      <button type="button" id="logoutUser" className="btn btn-danger my-4" onClick={handleLogOut}>Log Out</button>
     </div>
   );
 };

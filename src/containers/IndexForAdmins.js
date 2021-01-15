@@ -263,7 +263,7 @@ const IndexForAdmins = props => {
           );
         } return <div key={i} />;
       })}
-      <button type="button" className="btn btn-danger w-25 mx-auto mt-4" onClick={handleLogOut}>Log Out</button>
+      <button type="button" id="logoutAdmin" className="btn btn-danger w-25 mx-auto mt-4" onClick={handleLogOut}>Log Out</button>
     </div>
 
   );
