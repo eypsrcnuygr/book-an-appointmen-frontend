@@ -162,6 +162,7 @@ const Index = props => {
         });
         responseVar = response.statusText;
         setMyDiv('Your submission is reserved');
+        setTimeout(() => { setMyDiv(null); }, 500);
       })
       .catch(error => {
         responseVar = error.response.statusText;
