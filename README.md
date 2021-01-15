@@ -40,6 +40,7 @@ Here is the live [link](https://book-an-appointment-frontend.herokuapp.com/)
 - It checks the succesfull API call and control the UI based on a mock store for the App component.
 - It also checks the registration process and the navigation through the teacher page from Index page.
 - To run tests in the app folder run ```yarn test```.
+- IMPORTANT! To pass the validations on your tests, you need to give unique emails everytime you run the tests!
 
 ## Authors
 
