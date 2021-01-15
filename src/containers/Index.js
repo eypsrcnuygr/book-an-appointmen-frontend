@@ -62,6 +62,7 @@ const Index = props => {
   const [teacherDetails, setTeacherDetails] = useState([]);
   const [dateNow, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [userId, setUserId] = useState(null);
+  const [myDiv, setMyDiv] = useState(null);
   const { isLoggedIn } = props;
   let responseVar = null;
 
@@ -160,7 +161,7 @@ const Index = props => {
           },
         });
         responseVar = response.statusText;
-        setTimeout(() => { alert(responseVar); }, 500);
+        setMyDiv('Your submission is reserved');
       })
       .catch(error => {
         responseVar = error.response.statusText;
@@ -175,6 +176,7 @@ const Index = props => {
       <div>{isLoggedIn ? `You are logged in as ${emailState}` : 'Not authorized'}</div>
       <div>
         <h2>Here Are the Registrated Teachers</h2>
+        { !myDiv ? null : <div className="text-danger font-weight-bold">{myDiv}</div> }
         <div>
           <Slide autoplay={false}>
             {teacherDetails.map(element => {
