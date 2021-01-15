@@ -11,6 +11,7 @@ const AppointmentsFetcher = () => {
   let i = -1;
   let index = 0;
   let invitationNumber = 0;
+  let isCancelled = false;
 
   const checkLoginStatus = () => {
     axios
@@ -22,7 +23,9 @@ const AppointmentsFetcher = () => {
             'access-token': JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
           },
         }).then(response => {
-        setCurrentUser(response.data.data.email);
+        if (!isCancelled) {
+          setCurrentUser(response.data.data.email);
+        }
       })
       .catch(error => {
         responseVar = error.response.statusText;
@@ -51,13 +54,18 @@ const AppointmentsFetcher = () => {
           lastVersion.push(firstVersion);
           index += 1;
         });
-        setappointmentsState(lastVersion);
+        if (!isCancelled) {
+          setappointmentsState(lastVersion);
+        }
       });
   };
 
   useEffect(() => {
     checkLoginStatus();
     FetchAppointments();
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   return (

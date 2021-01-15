@@ -268,6 +268,7 @@ const App = props => {
         <input
           type="email"
           name="email"
+          id="emailForAdmin"
           placeholder="Email"
           value={emailForAdmin}
           onChange={event => setEmailForAdmin(event.target.value)}
@@ -277,6 +278,7 @@ const App = props => {
         <input
           type="password"
           name="password"
+          id="passwordForAdmin"
           placeholder="Password"
           value={passwordForAdmin}
           onChange={event => setPasswordForAdmin(event.target.value)}
@@ -286,13 +288,14 @@ const App = props => {
         <input
           type="password"
           name="password_confirmation"
+          id="passwordConfirmationForAdmin"
           placeholder="Password-Confirmation"
           value={password_confirmationForAdmin}
           onChange={event => setPasswordConfirmationForAdmin(event.target.value)}
           required
           className="form-control mb-2"
         />
-        <button type="button" className="btn btn-success mt-3" onClick={handleSubmitForAdminRegistration}>Sign Up</button>
+        <button type="button" className="btn btn-success mt-3" id="buttonForAdmin" onClick={handleSubmitForAdminRegistration}>Sign Up</button>
       </form>
 
       <form className="text-center mb-4 w-50 mx-auto">

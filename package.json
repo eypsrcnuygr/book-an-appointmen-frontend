@@ -2,6 +2,18 @@
   "name": "book-an-appointment-frontend",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js"
+    ],
+    "coverageReporters": [
+      "text"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -10,6 +22,9 @@
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
@@ -17,6 +32,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "history": "^5.0.0",
+    "jest-canvas-mock": "^2.3.0",
     "jquery": "^3.5.1",
     "msw": "^0.25.0",
     "node-sass": "4.14.1",
@@ -28,6 +44,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-slideshow-image": "^3.4.3",
+    "react-test-renderer": "^17.0.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "uploadcare-widget": "^3.10.2",
