@@ -140,12 +140,6 @@ const App = props => {
     axios.post('https://book-an-appointment-backend.herokuapp.com/auth_teacher/sign_in', {
       email: emailForAdminLogin,
       password: passwordForAdminLogin,
-    }, {
-      headers: {
-        uid: JSON.parse(localStorage.getItem('currentAdmin')).myUid,
-        client: JSON.parse(localStorage.getItem('currentAdmin')).myClient,
-        'access-token': JSON.parse(localStorage.getItem('currentAdmin')).myAccessToken,
-      },
     }).then(response => {
       if (response.status === 200) {
         setLocalStorageForAdmin(response);
@@ -173,12 +167,6 @@ const App = props => {
     axios.post('https://book-an-appointment-backend.herokuapp.com/auth/sign_in', {
       email: emailForLogin,
       password: passwordForLogin,
-    }, {
-      headers: {
-        uid: JSON.parse(localStorage.getItem('currentUser')).myUid,
-        client: JSON.parse(localStorage.getItem('currentUser')).myClient,
-        access_token: JSON.parse(localStorage.getItem('currentUser')).myAccessToken,
-      },
     }).then(response => {
       if (response.status === 200) {
         SetLocalStorageForUser(response);
